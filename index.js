@@ -2,12 +2,20 @@
 
 /*================= Підключення бібліотек============================ */
 
-const mongoose = require('mongoose');
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
 require('dotenv').config();
 app.use(bodyParser.json());
+
+// app.use((req, res, next) =>{
+//     const {authorization} = req.headers;
+//     if(authorization != process.env.TOKEN) {
+//         return res.status(4001).send({message: "This requesst doesnt include autoriztion"})
+//     };
+
+//     return next();
+// })
 
 /*====================== Підключення різних файлів і модулів ======================================= */
 
@@ -15,11 +23,11 @@ app.use(bodyParser.json());
 
 const setupBD = require('./setup/setupBD.js');
 
-const {users} = require('./models/users.js')
-const {Theater} = require('./models/theaters.js')
-const {Session} = require('.//models/theaters.js')
 
-
+const TheaterControler = require('./apirouts/getTheaterById.js');
+const UsersController = require('./apirouts/users.js');
+const SessionController = require('./apirouts/sessions.js');
+const TheaterControllerInfo  = require('./apirouts/getTheaterInfo.js');
 
 
 
@@ -31,25 +39,16 @@ const start = async () =>{
 
     await setupBD.conectBd(process.env.MONGO_URL);               // Виклик функції на підключння до БД
 
+
+   app.use(TheaterControler.router);
     
-app.get('/users', async (req,res) =>{                       //Get запит на /users
-    const {name} = req.query;
+    app.use(UsersController.router);
 
-    const queryDB ={};
+    app.use(SessionController.router);
 
-    if(name)
-    {
-        queryDB.name = name;
-    }
-    console.log(name);
+    app.use(TheaterControllerInfo.router);
 
-    const docs = await users.find().limit(3);
-
-    res.status(200).json( docs);
     
-
-})
-
 
 
 

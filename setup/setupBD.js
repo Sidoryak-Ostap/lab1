@@ -11,6 +11,8 @@ const connect = await mongoose.connect(url);
     connect.connection.addListener('error', ()=>{
         console.log("DB Error");
     })
+
+    
     // mongoose.connect(url).then(() =>{
     //     console.log("BD is connected");
     // }).catch((err) =>{

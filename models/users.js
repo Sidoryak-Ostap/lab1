@@ -16,9 +16,7 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    _id: {
-        type: String
-    }
+    _id:{type: String}
 })
 
 const users = new model('users', UserSchema, 'users');

@@ -5,13 +5,15 @@ const shema = new Schema({
     theaterId: {
         type: Number
     },
+
     location: {
         address:{
             street1: {type: String},
             city: {type: String},
             state: {type: String},
-            zipcode: {type: Number}
+            zipcode: {type: String}
         },
+        
         geo: {
             type:{type: String},
             coordinates: {
@@ -27,3 +29,5 @@ const shema = new Schema({
 const Theater = new model('theaters', shema, 'theaters');
 
 module.exports = {Theater}
+
+
